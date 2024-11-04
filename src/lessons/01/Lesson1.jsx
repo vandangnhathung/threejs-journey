@@ -1,48 +1,53 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import * as THREE from 'three'
 import './lesson1.css';
 
 const Lesson1 = () => {
 
     // Get canvas element
-    const canvas = document.querySelector('canvas.webgl');
+    const canvasRef = useRef(null);
 
-    const scene = new THREE.Scene();
+    useEffect(() => {
+        if(!canvasRef) return;
 
-    // Mesh ?
-    // GEOMETRY
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const scene = new THREE.Scene();
 
-    // MATERIAL
-    const material = new THREE.MeshBasicMaterial({color: 0xff0000});
+        // Mesh ?
+        // GEOMETRY
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
 
-    // MESH
-    const mesh = new THREE.Mesh(geometry, material);
+        // MATERIAL
+        const material = new THREE.MeshBasicMaterial({color: 0xff0000});
 
-    // Add mesh to scene
-    scene.add(mesh);
+        // MESH
+        const mesh = new THREE.Mesh(geometry, material);
 
-    // CAMERA
-    const sizes = {
-        width: 800,
-        height: 600
-    };
-    const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
+        // Add mesh to scene
+        scene.add(mesh);
 
-    // Add camera to scene
-    scene.add(camera);
+        // CAMERA
+        const sizes = {
+            width: 800,
+            height: 600
+        };
+        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
 
-    // RENDERER
-    const renderer = new THREE.WebGLRenderer({canvas});
-    renderer.setSize(sizes.width, sizes.height);
+        // Add camera to scene
+        scene.add(camera);
 
-    // Render scene
-    camera.position.z = 3;
-    renderer.render(scene, camera);
+        // RENDERER
+        const renderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
+        renderer.setSize(sizes.width, sizes.height);
+
+        // Render scene
+        camera.position.z = 3;
+        renderer.render(scene, camera);
+    })
+
 
     return (
         <div>
-            <canvas className="webgl"></canvas>
+            <canvas ref={canvasRef} className="webgl"></canvas>
         </div>
     );
 };
