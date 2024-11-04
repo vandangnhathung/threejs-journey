@@ -1,8 +1,10 @@
+import Lesson1 from "./lessons/01/Lesson1.jsx";
+
 function App(){
 
     return (
         <>
-           <div>work</div>
+            <Lesson1/>
         </>
     )
 }
