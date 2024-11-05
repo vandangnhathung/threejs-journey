@@ -1,12 +1,10 @@
-import Lesson2 from "./lessons/02/Lesson2.jsx";
-import Lesson1 from "./lessons/01/Lesson1.jsx";
+import Lesson4 from "./lessons/04/Lesson4.jsx";
 
 function App(){
 
     return (
         <>
-            {/*<Lesson1/>*/}
-            <Lesson2/>
+            <Lesson4/>
         </>
     )
 }
