@@ -1,8 +1,8 @@
 import React, {useEffect, useRef} from 'react';
 import * as THREE from 'three'
-import './lesson4.css';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 
-const Lesson4 = () => {
+const Lesson61 = () => {
 
     // Get canvas element
     const canvasRef = useRef(null);
@@ -21,7 +21,6 @@ const Lesson4 = () => {
 
         // MESH
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.y = 1;
         // Add mesh to scene
         scene.add(mesh);
 
@@ -34,11 +33,26 @@ const Lesson4 = () => {
         };
         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
 
+        const cursor = {
+            x: 0,
+            y: 0
+        }
+
+        // Add mouse even
+        canvasRef.current.addEventListener('mousemove', (e) => {
+            cursor.x = e.clientX / sizes.width - 0.5;
+            cursor.y = -(e.clientY / sizes.height - 0.5);
+
+        })
+
         // Add camera to scene
         scene.add(camera);
 
+        // Using ObitControls
+        const controls = new OrbitControls(camera, canvasRef.current);
+
         // Render scene
-        camera.position.z = 4;
+        camera.position.z = 3;
 
         // console.log(mesh.position.distanceTo(camera.position));
 
@@ -46,21 +60,16 @@ const Lesson4 = () => {
         const renderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
         renderer.setSize(sizes.width, sizes.height);
 
-        // Clock
-        const clock = new THREE.Clock();
-
         const tick = () => {
 
-            const elapsedTime = clock.getElapsedTime();
+            // Add damping
+            controls.update();
 
-            // console.log(Math.cos(elapsedTime));
-            camera.position.x = Math.sin(elapsedTime);
-            // camera.position.y = Math.cos(elapsedTime);
-
-            // console.log('tick', clock, clock.getElapsedTime());
             renderer.render(scene, camera);
             window.requestAnimationFrame(tick);
         }
+
+
 
         tick();
 
@@ -75,4 +84,4 @@ const Lesson4 = () => {
     );
 };
 
-export default Lesson4;
+export default Lesson61;
