@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 
-const Lesson61 = () => {
+const Lesson7 = () => {
 
     // Get canvas element
     const canvasRef = useRef(null);
@@ -61,6 +61,9 @@ const Lesson61 = () => {
         const renderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
         renderer.setSize(sizes.width, sizes.height);
 
+        // put this one in the resize event to update the pixel ratio when the window is resized (Or changing the screen device)
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
         const tick = () => {
 
             // Add damping
@@ -69,7 +72,6 @@ const Lesson61 = () => {
             renderer.render(scene, camera);
             window.requestAnimationFrame(tick);
         }
-
 
 
         tick();
@@ -85,4 +87,4 @@ const Lesson61 = () => {
     );
 };
 
-export default Lesson61;
+export default Lesson7;
