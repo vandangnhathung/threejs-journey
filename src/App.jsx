@@ -1,10 +1,10 @@
-import Lesson15 from "./lessons/15/Lesson15.jsx";
+import HauntedHouse from "./projects/HauntedHouse/HauntedHouse.jsx";
 
 function App(){
 
     return (
         <>
-            <Lesson15/>
+            <HauntedHouse/>
         </>
     )
 }
