@@ -21,6 +21,20 @@ const Lesson10 = () => {
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load('/src/assets/color.jpg');
         texture.colorSpace = THREE.SRGBColorSpace;
+        // texture.repeat.x = 2;
+        // texture.repeat.y = 2;
+        //
+
+
+        texture.offset.y = 0.1;
+
+        gui.add(texture.offset, 'y').min(0).max(1).step(0.001).name('Texture Offset');
+        gui.add(texture.repeat, 'x').min(0).max(5).step(0.1).name('Texture Repeat X');
+        gui.add(texture.repeat, 'y').min(0).max(5).step(0.1).name('Texture Repeat Y');
+
+        texture.wrapS = THREE.MirroredRepeatWrapping;
+        texture.wrapT = THREE.MirroredRepeatWrapping;
+
         // texture.minFilter = THREE.NearestFilter;
 
         // Mesh ? 
