@@ -4,6 +4,9 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import GUI from 'lil-gui'
 import {Timer} from "three/addons";
 
+// import ""
+
+
 const HauntedHouse = () => {
 
     // Get canvas element
@@ -24,18 +27,59 @@ const HauntedHouse = () => {
         // Scene
         const scene = new THREE.Scene()
 
+        // Texture
+        const textureLoader = new THREE.TextureLoader();
+        const floorAlphaTexture = textureLoader.load('/src/assets/floor/alpha.jpg');
+        const floorColorTexture = textureLoader.load('/src/assets/floor/rocky_terrain_diff_1k.jpg');
+        const floorNormalTexture = textureLoader.load('/src/assets/floor/rocky_terrain_nor_gl_1k.jpg');
+        const floorARMTexture = textureLoader.load('/src/assets/floor/rocky_terrain_arm_1k.jpg');
+        const floorDisplacementTexture = textureLoader.load('/src/assets/floor/rocky_terrain_disp_1k.jpg');
+
+        floorColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+        floorColorTexture.repeat.set(8, 8);
+        floorARMTexture.repeat.set(8, 8);
+        floorNormalTexture.repeat.set(8, 8);
+        floorDisplacementTexture.repeat.set(8, 8);
+
+        floorColorTexture.wrapS = THREE.RepeatWrapping;
+        floorARMTexture.wrapS = THREE.RepeatWrapping;
+        floorNormalTexture.wrapS = THREE.RepeatWrapping;
+        floorDisplacementTexture.wrapS = THREE.RepeatWrapping;
+
+        floorColorTexture.wrapT = THREE.RepeatWrapping;
+        floorARMTexture.wrapT = THREE.RepeatWrapping;
+        floorNormalTexture.wrapT = THREE.RepeatWrapping;
+        floorDisplacementTexture.wrapT = THREE.RepeatWrapping;
+
         /**
          * House
          */
 
             // Floor
         const floor = new THREE.Mesh(
-                new THREE.PlaneGeometry(20, 20),
-                new THREE.MeshStandardMaterial({roughness: 0.7})
-            );
+                new THREE.PlaneGeometry(20, 20, 100, 100),
+                new THREE.MeshStandardMaterial({
+                    alphaMap: floorAlphaTexture,
+                    transparent: true,
+                    map: floorColorTexture,
+                    normalMap: floorNormalTexture,
+                    aoMap: floorARMTexture,
+                    roughnessMap: floorARMTexture,
+                    metalnessMap: floorARMTexture,
+                    displacementMap: floorDisplacementTexture,
+                    displacementScale: 0.3,
+                    displacementBias: -0.2
+                })
+            )
+
+        gui.add(floor.material, 'displacementScale').min(0).max(1).step(0.001).name('Displacement scale')
+        gui.add(floor.material, 'displacementBias').min(-1).max(1).step(0.001).name('Displacement bias')
+
         floor.rotation.x = -Math.PI * 0.5
         scene.add(floor);
 
+        // House
         const house = new THREE.Group();
         scene.add(house);
 
