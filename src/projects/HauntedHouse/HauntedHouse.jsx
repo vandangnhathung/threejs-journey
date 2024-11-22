@@ -29,6 +29,8 @@ const HauntedHouse = () => {
 
         // Texture
         const textureLoader = new THREE.TextureLoader();
+
+        // Floor
         const floorAlphaTexture = textureLoader.load('/src/assets/floor/alpha.jpg');
         const floorColorTexture = textureLoader.load('/src/assets/floor/rocky_terrain_diff_1k.jpg');
         const floorNormalTexture = textureLoader.load('/src/assets/floor/rocky_terrain_nor_gl_1k.jpg');
@@ -52,11 +54,11 @@ const HauntedHouse = () => {
         floorNormalTexture.wrapT = THREE.RepeatWrapping;
         floorDisplacementTexture.wrapT = THREE.RepeatWrapping;
 
+
         /**
          * House
          */
-
-            // Floor
+        // Floor
         const floor = new THREE.Mesh(
                 new THREE.PlaneGeometry(20, 20, 100, 100),
                 new THREE.MeshStandardMaterial({
@@ -84,17 +86,65 @@ const HauntedHouse = () => {
         scene.add(house);
 
         // Walls
+        const wallColorTexture = textureLoader.load('/src/assets/house/double_brick_floor_diff_1k.jpg');
+        const wallNormalTexture = textureLoader.load('/src/assets/house/double_brick_floor_nor_gl_1k.jpg');
+        const wallARMTexture = textureLoader.load('/src/assets/house/double_brick_floor_arm_1k.jpg');
+
+        wallColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+        wallColorTexture.repeat.set(2, 2);
+        wallARMTexture.repeat.set(2, 2);
+        wallNormalTexture.repeat.set(2, 2);
+
+        wallColorTexture.wrapS = THREE.RepeatWrapping;
+        wallARMTexture.wrapS = THREE.RepeatWrapping;
+        wallNormalTexture.wrapS = THREE.RepeatWrapping;
+
+        wallColorTexture.wrapT = THREE.RepeatWrapping;
+        wallARMTexture.wrapT = THREE.RepeatWrapping;
+        wallNormalTexture.wrapT = THREE.RepeatWrapping;
+
         const walls = new THREE.Mesh(
             new THREE.BoxGeometry(4, 2.5, 4),
-            new THREE.MeshStandardMaterial()
+            new THREE.MeshStandardMaterial({
+                map: wallColorTexture,
+                aoMap: wallARMTexture,
+                roughnessMap: wallARMTexture,
+                metalnessMap: wallARMTexture,
+                normalMap: wallNormalTexture
+            })
         );
         walls.position.y = 1.25;
         house.add(walls);
 
         // Roof
+        const roofColorTexture = textureLoader.load('/src/assets/roof/clay_roof_tiles_02_diff_1k.jpg');
+        const roofNormalTexture = textureLoader.load('/src/assets/roof/clay_roof_tiles_02_nor_gl_1k.jpg');
+        const roofARMTexture = textureLoader.load('/src/assets/roof/clay_roof_tiles_02_arm_1k.jpg');
+
+        roofColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+        roofColorTexture.repeat.set(10, 4);
+        roofARMTexture.repeat.set(10, 4);
+        roofNormalTexture.repeat.set(10, 4);
+
+        roofColorTexture.wrapS = THREE.RepeatWrapping;
+        roofARMTexture.wrapS = THREE.RepeatWrapping;
+        roofNormalTexture.wrapS = THREE.RepeatWrapping;
+
+        roofColorTexture.wrapT = THREE.RepeatWrapping;
+        roofARMTexture.wrapT = THREE.RepeatWrapping;
+        roofNormalTexture.wrapT = THREE.RepeatWrapping;
+
         const roof = new THREE.Mesh(
             new THREE.ConeGeometry(3.5, 1, 4),
-            new THREE.MeshStandardMaterial()
+            new THREE.MeshStandardMaterial({
+                map: roofColorTexture,
+                aoMap: roofARMTexture,
+                roughnessMap: roofARMTexture,
+                metalnessMap: roofARMTexture,
+                normalMap: roofNormalTexture
+            })
         );
         roof.position.y = 2.5 + 0.5;
         roof.rotation.y = Math.PI * 0.25;
@@ -192,9 +242,9 @@ const HauntedHouse = () => {
          */
             // Base camera
         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-        camera.position.x = 10
+        camera.position.x = 5
         camera.position.y = 4
-        camera.position.z = 12
+        camera.position.z = 2
         scene.add(camera)
 
         // Controls
